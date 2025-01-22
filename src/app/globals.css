@@ -3,19 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --secondary: 350 67% 51%;
+  --background: 234 41% 19%;
+  --foreground: 240deg 13.33% 94.12%;
+
+  color: hsl(var(--foreground));
+
+  font-size: 16px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* ::-webkit-scrollbar {
+  display: none;
+} */

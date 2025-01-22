@@ -1,15 +1,51 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import localFont from "next/font/local";
+import Header from "@/components/Header";
+import MainLayout from "@/components/MainLayout";
+import PageToPage from "@/components/PageToPage";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const tt_tunnels = localFont({
+  variable: "--font-tt-tunnels",
+  src: [
+    {
+      path: "../assets/fonts/tt_tunnels/TT-Tunnels-Trial-Thin.otf",
+      weight: "100",
+    },
+    {
+      path: "../assets/fonts/tt_tunnels/TT-Tunnels-Trial-Light.otf",
+      weight: "300",
+    },
+    {
+      path: "../assets/fonts/tt_tunnels/TT-Tunnels-Trial-Regular.otf",
+      weight: "400",
+    },
+    {
+      path: "../assets/fonts/tt_tunnels/TT-Tunnels-Trial-Bold.otf",
+      weight: "700",
+    },
+    {
+      path: "../assets/fonts/tt_tunnels/TT-Tunnels-Trial-Black.otf",
+      weight: "900",
+    },
+  ],
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const tt_lakes = localFont({
+  variable: "--font-tt-lakes",
+  src: [
+    {
+      path: "../assets/fonts/tt_lakes/TT Lakes Medium.otf",
+      weight: "500",
+    },
+    {
+      path: "../assets/fonts/tt_lakes/TT Lakes Condensed Bold.otf",
+      weight: "700",
+    },
+    {
+      path: "../assets/fonts/tt_lakes/TT Lakes Compressed Black.otf",
+      weight: "900",
+    },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -25,9 +61,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`antialiased min-h-screen ${tt_tunnels.variable} ${tt_lakes.variable}`}
       >
-        {children}
+        <Header />
+        <MainLayout>{children}</MainLayout>
+        <PageToPage />
       </body>
     </html>
   );
