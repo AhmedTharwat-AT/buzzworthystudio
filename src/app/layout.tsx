@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import localFont from "next/font/local";
 import Header from "@/components/Header";
 import MainLayout from "@/components/MainLayout";
 import PageToPage from "@/components/PageToPage";
+import ScrollToTopBeforeReload from "@/components/ScrollToTopBeforeReload";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
 
 const tt_tunnels = localFont({
   variable: "--font-tt-tunnels",
@@ -61,11 +62,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased min-h-screen ${tt_tunnels.variable} ${tt_lakes.variable}`}
+        className={`min-h-screen antialiased ${tt_tunnels.variable} ${tt_lakes.variable}`}
       >
         <Header />
         <MainLayout>{children}</MainLayout>
         <PageToPage />
+        <ScrollToTopBeforeReload />
       </body>
     </html>
   );

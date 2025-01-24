@@ -1,17 +1,20 @@
 import KeywordsUSPS from "@/components/KeywordsUSPS";
-import ParrallexContext from "@/components/ParrallexContext";
+import ParrallexContent from "@/components/ParrallexContent";
 import HeroSection from "@/sections/home/HeroSection";
 import IntroSection from "@/sections/home/IntroSection";
+import WorkSection from "@/sections/home/WorkSection";
 
 function home() {
   return (
-    <ParrallexContext className="w-screen relative ml-[-10px] mt-[-10px] ">
+    <ParrallexContent className="relative ml-[-10px] mt-[-10px] w-screen md:pb-[10px]">
       <KeywordsUSPS />
 
       <HeroSection />
 
       <IntroSection />
-    </ParrallexContext>
+
+      <WorkSection />
+    </ParrallexContent>
   );
 }
 
