@@ -1,43 +1,79 @@
 "use client";
-import { motion, MotionValue, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
 
 function LetterUpScroll({
   ref,
+  windowPercentage,
 }: {
   ref: React.RefObject<HTMLDivElement | null>;
+  windowPercentage: number;
 }) {
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["0 1", "0 0"],
+    offset: ["0 0", "1 1"],
+    layoutEffect: false,
   });
 
+  const smoothProgress = useSpring(scrollYProgress, {
+    mass: 0.1,
+    stiffness: 100,
+    damping: 20,
+  });
+
+  const y = useTransform(smoothProgress, [1 - windowPercentage, 1], [0, -600]);
   return (
-    <p className="absolute left-0 top-0 -z-10 flex justify-center text-darker_bg">
+    <motion.p
+      style={{ y }}
+      className="absolute left-0 top-0 -z-10 flex justify-center text-darker_bg"
+    >
       {"attitude".split("").map((letter, index) => (
         <LetterUp
           key={index}
           letter={letter}
           index={index}
-          progress={scrollYProgress}
+          ref={ref}
+          windowPercentage={windowPercentage}
         />
       ))}
-    </p>
+    </motion.p>
   );
 }
 
 const LetterUp = ({
   letter,
   index,
-  progress,
+  ref,
+  windowPercentage,
 }: {
   letter: string;
   index: number;
-  progress: MotionValue<number>;
+  ref: React.RefObject<HTMLDivElement | null>;
+  windowPercentage: number;
 }) => {
-  const letterUp = useTransform(progress, [0, 1], [70 * index, 0]);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["0 1", "1 1"],
+    layoutEffect: false,
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    mass: 0.1,
+    stiffness: 100,
+    damping: 20,
+  });
+
+  const letterUp = useTransform(
+    smoothProgress,
+    [0, windowPercentage, 1 - windowPercentage, 1],
+    [70 * index, 0, 0, -70 * index],
+  );
 
   return (
-    <motion.span style={{ y: letterUp }} className="inline-block">
+    <motion.span
+      custom={letterUp}
+      style={{ y: letterUp }}
+      className="inline-block"
+    >
       {letter}
     </motion.span>
   );
