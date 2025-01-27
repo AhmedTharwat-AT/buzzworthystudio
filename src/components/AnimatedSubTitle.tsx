@@ -7,7 +7,7 @@ import { useInView, motion } from "motion/react";
 function AnimatedSubTitle({ children }: { children: React.ReactNode }) {
   const ref = useRef(null);
   const isInView = useInView(ref, {
-    margin: "-100px",
+    margin: "-50px",
   });
 
   return (

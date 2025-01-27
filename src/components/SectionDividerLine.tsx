@@ -12,17 +12,27 @@ function SectionDividerLine({
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, {
+    margin: "-50px",
     once: true,
-    margin: "50px",
   });
 
   return (
     <motion.div
       ref={ref}
       className={`relative my-8 px-[11px] ${className}`}
-      initial={{ width: 0, opacity: 0 }}
-      animate={isInView && { width: "100%", opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.5 }}
+      variants={{
+        initial: {
+          width: 0,
+          opacity: 0,
+        },
+        animate: {
+          width: "100%",
+          opacity: 1,
+        },
+      }}
+      initial="initial"
+      animate={isInView ? "animate" : "initial"}
+      transition={{ duration: 0.5 }}
     >
       <svg
         width="11"

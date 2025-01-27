@@ -7,6 +7,8 @@
   --background: 234 41% 19%;
   --foreground: 240deg 13.33% 94.12%;
 
+  --darker-bg:237 42% 14% ;
+
   color: hsl(var(--foreground));
 
   font-size: 16px;

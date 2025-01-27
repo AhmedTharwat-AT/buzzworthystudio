@@ -21,11 +21,11 @@ function WorkImageWithTitle({
 
   return (
     <article ref={ref} className={`group ${className}`}>
-      <figure className="relative overflow-hidden rounded-[10px] transition-all duration-700 group-hover:-translate-y-3">
+      <figure className="relative overflow-hidden rounded-[10px] p-1 transition-all duration-500 group-hover:-translate-y-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 660 660"
-          className="absolute inset-0 z-10"
+          className="absolute -inset-1 z-10"
         >
           <motion.path
             variants={{
@@ -57,7 +57,7 @@ function WorkImageWithTitle({
         />
       </figure>
 
-      <h2 className="mt-[2em] overflow-hidden font-sans text-sm font-bold uppercase leading-[1em]">
+      <h2 className="mt-[calc(2em-4px)] overflow-hidden ps-1 font-sans text-sm font-bold uppercase leading-[1em]">
         {title.split("").map((letter, index) => (
           <span
             className={`inline-block translate-y-full transition-all duration-300 group-hover:translate-y-0 ${letter == " " ? "w-1" : ""} `}

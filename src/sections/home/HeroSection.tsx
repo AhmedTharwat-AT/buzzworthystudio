@@ -3,20 +3,6 @@ import AnimateLetters from "@/components/AnimateLetters";
 import { motion, Variants } from "motion/react";
 import Link from "next/link";
 
-const headingVariants: Variants = {
-  initial: {
-    rotate: 90,
-    y: "100vw",
-    x: "00vw",
-  },
-  final: {
-    rotate: 0,
-    y: 0,
-    x: 0,
-    transition: { duration: 0.7 },
-  },
-};
-
 const fadeVariants: Variants = {
   initial: { opacity: 0, y: 50 },
   final: (custom: number = 1) => ({
@@ -28,7 +14,7 @@ const fadeVariants: Variants = {
 
 function HeroSection() {
   return (
-    <section className="relative h-screen  pt-[17.5vh] pb-[4.16vw] px-[12.49vw]  ">
+    <section className="relative h-screen px-[12.49vw] pb-[4.16vw] pt-[17.5vh]">
       <div>
         <HeroHeading />
 
@@ -51,9 +37,9 @@ function HeroSection() {
           variants={fadeVariants}
           initial="initial"
           animate="final"
-          className="w-[20.833vw] absolute bottom-[4.1666vw] right-[12.4998vw] hidden md:block "
+          className="absolute bottom-[4.1666vw] right-[12.4998vw] hidden w-[20.833vw] md:block"
         >
-          <p className="text-sm font-sans uppercase leading-none text-foreground/60">
+          <p className="font-sans text-sm uppercase leading-none text-foreground/60">
             We specialize in creating meaningful digital experiences infused
             with emotion, driven by innovation, evoking a sense of awe and
             wonder.
@@ -64,29 +50,43 @@ function HeroSection() {
   );
 }
 
+const headingVariants: Variants = {
+  initial: {
+    rotate: 90,
+    y: "100vw",
+    x: "00vw",
+  },
+  final: {
+    rotate: 0,
+    y: 0,
+    x: 0,
+    transition: { duration: 0.7 },
+  },
+};
+
 function HeroHeading() {
   return (
     <motion.h1
       variants={headingVariants}
       initial="initial"
       animate="final"
-      className="text-[clamp(90px,15.27vw,340px)] font-bold leading-[0.8] uppercase"
+      className="text-[clamp(90px,15.27vw,340px)] font-bold uppercase leading-[0.8]"
     >
-      <div className="flex justify-between flex-wrap">
+      <div className="flex flex-wrap justify-between">
         <AnimateLetters
           letters={["C", "R", "E", "A", "T", "I", "V", "E"]}
-          className="flex relative z-10"
+          className="relative z-10 flex"
         />
         <AnimateLetters
           letters={["w", "e", "b"]}
-          className="flex text-secondary relative ms-auto"
+          className="relative ms-auto flex text-secondary"
           step={7}
         />
       </div>
       <div>
         <AnimateLetters
           letters={["S", "T", "U", "D", "I", "O"]}
-          className="flex justify-end "
+          className="flex justify-end"
         />
       </div>
     </motion.h1>
@@ -100,30 +100,30 @@ function NextProjectLink() {
       variants={fadeVariants}
       initial="initial"
       animate="final"
-      className="w-[66.6656vw] md:w-[33.3328vw] md:ms-auto max-md:absolute max-md:bottom-0 max-md:left-[4.1666vw]"
+      className="w-[66.6656vw] max-md:absolute max-md:bottom-0 max-md:left-[4.1666vw] md:ms-auto md:w-[33.3328vw]"
     >
       <Link
         href={"/"}
-        className="group flex font-sans relative items-center gap-2 py-[1.2em] md:py-[1.5em] px-[1.75em] md:px-[2.25em] overflow-hidden leading-none justify-between mt-4 w-full rounded-[5px] text-xs md:text-sm uppercase border border-gray-300/15 font-medium"
+        className="group relative mt-4 flex w-full items-center justify-between gap-2 overflow-hidden rounded-[5px] border border-gray-300/15 px-[1.75em] py-[1.2em] font-sans text-xs font-medium uppercase leading-none md:px-[2.25em] md:py-[1.5em] md:text-sm"
       >
-        <span className="inline-block h-full bg-[#eeeef21a] absolute w-full top-full duration-300 ease-in-out group-hover:top-0 transition-all left-0 z-[-1]" />
+        <span className="absolute left-0 top-full z-[-1] inline-block h-full w-full bg-[#eeeef21a] transition-all duration-300 ease-in-out group-hover:top-0" />
         <span className="">Latest project</span>
 
-        <span className=" basis-[12%] ">
+        <span className="basis-[12%]">
           <svg
             viewBox="0 0 56 12"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              className=" transition-all duration-300 scale-100  group-hover:scale-0 origin-right delay-150 group-hover:delay-0"
+              className="origin-right scale-100 transition-all delay-150 duration-300 group-hover:scale-0 group-hover:delay-0"
               d="M 1 6 L 49.8077 6"
               stroke="#EEEEF2"
               strokeLinecap="round"
               strokeLinejoin="round"
             ></path>
             <path
-              className=" scale-0 group-hover:scale-100  origin-left group-hover:delay-150 delay-0 duration-300"
+              className="origin-left scale-0 delay-0 duration-300 group-hover:scale-100 group-hover:delay-150"
               d="M 1 6 L 49.8077 6"
               stroke="#EEEEF2"
               strokeLinecap="round"

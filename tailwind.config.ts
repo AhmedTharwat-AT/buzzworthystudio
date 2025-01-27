@@ -17,6 +17,7 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         secondary: "hsl(var(--secondary))",
+        darker_bg: "hsl(var(--darker-bg))",
       },
     },
   },

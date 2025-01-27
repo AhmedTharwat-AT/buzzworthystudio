@@ -1,5 +1,6 @@
 import KeywordsUSPS from "@/components/KeywordsUSPS";
 import ParrallexContent from "@/components/ParrallexContent";
+import AtitudeSection from "@/sections/home/AtitudeSection";
 import HeroSection from "@/sections/home/HeroSection";
 import IntroSection from "@/sections/home/IntroSection";
 import WorkSection from "@/sections/home/WorkSection";
@@ -14,6 +15,8 @@ function home() {
       <IntroSection />
 
       <WorkSection />
+
+      <AtitudeSection />
     </ParrallexContent>
   );
 }
