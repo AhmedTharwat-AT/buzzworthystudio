@@ -4,13 +4,15 @@ import { motion, useScroll, useSpring, useTransform } from "motion/react";
 function LetterUpScroll({
   ref,
   windowPercentage,
+  windowHeight,
 }: {
   ref: React.RefObject<HTMLDivElement | null>;
   windowPercentage: number;
+  windowHeight: number;
 }) {
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["0 0", "1 1"],
+    offset: ["25px 0", "1 1"],
     layoutEffect: false,
   });
 
@@ -20,7 +22,12 @@ function LetterUpScroll({
     damping: 20,
   });
 
-  const y = useTransform(smoothProgress, [1 - windowPercentage, 1], [0, -600]);
+  const y = useTransform(
+    smoothProgress,
+    [1 - windowPercentage, 1],
+    [0, -windowHeight / 1.2],
+  );
+
   return (
     <motion.p
       style={{ y }}
@@ -52,7 +59,7 @@ const LetterUp = ({
 }) => {
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["0 1", "1 1"],
+    offset: ["25px 1", "1 1"],
     layoutEffect: false,
   });
 
@@ -64,8 +71,8 @@ const LetterUp = ({
 
   const letterUp = useTransform(
     smoothProgress,
-    [0, windowPercentage, 1 - windowPercentage, 1],
-    [70 * index, 0, 0, -70 * index],
+    [0, windowPercentage, 1 - windowPercentage + 0.05, 1],
+    [100 * index, 0, 0, -100 * index],
   );
 
   return (

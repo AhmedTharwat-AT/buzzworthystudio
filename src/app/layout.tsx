@@ -5,6 +5,7 @@ import ScrollToTopBeforeReload from "@/components/ScrollToTopBeforeReload";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import WrapperProvider from "@/context/WrapperProvider";
 
 const tt_tunnels = localFont({
   variable: "--font-tt-tunnels",
@@ -65,7 +66,9 @@ export default function RootLayout({
         className={`min-h-screen antialiased ${tt_tunnels.variable} ${tt_lakes.variable}`}
       >
         <Header />
-        <MainLayout>{children}</MainLayout>
+        <WrapperProvider>
+          <MainLayout>{children}</MainLayout>
+        </WrapperProvider>
         <PageToPage />
         <ScrollToTopBeforeReload />
       </body>

@@ -1,7 +1,8 @@
 "use client";
 
+import { useWrapper } from "@/context/WrapperProvider";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 function ParrallexContent({
@@ -12,8 +13,7 @@ function ParrallexContent({
   children?: React.ReactNode;
 }) {
   const [windowHeight, setWindowHeight] = useState(0);
-  const [contentHeight, setContentHeight] = useState(0);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const { pageHeight, setPageHeight, contentRef } = useWrapper();
   const { scrollYProgress } = useScroll();
   const smoothProgress = useSpring(scrollYProgress, {
     mass: 0.1,
@@ -30,7 +30,7 @@ function ParrallexContent({
       setWindowHeight(window.innerHeight);
 
       if (contentRef.current) {
-        setContentHeight(contentRef.current.scrollHeight);
+        setPageHeight(contentRef.current.scrollHeight);
         // document.body.style.height = `${
         //   contentRef.current.scrollHeight + 10
         // }px`;
@@ -44,7 +44,7 @@ function ParrallexContent({
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [contentRef]);
+  }, [contentRef, setPageHeight]);
 
   return (
     <>
@@ -57,11 +57,12 @@ function ParrallexContent({
         {children}
       </motion.div>
 
-      {contentHeight &&
+      {pageHeight &&
         createPortal(
           <div
+            id="pageHeight"
             style={{
-              height: `${contentHeight}px`,
+              height: `${pageHeight}px`,
               width: "100%",
             }}
           />,
