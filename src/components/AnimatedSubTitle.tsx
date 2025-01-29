@@ -4,10 +4,17 @@ import { useRef } from "react";
 import Dot from "./Dot";
 import { useInView, motion } from "motion/react";
 
-function AnimatedSubTitle({ children }: { children: React.ReactNode }) {
+function AnimatedSubTitle({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     margin: "-50px",
+    once: true,
   });
 
   return (
@@ -26,7 +33,7 @@ function AnimatedSubTitle({ children }: { children: React.ReactNode }) {
       initial="initial"
       animate={isInView ? "animate" : "initial"}
       transition={{ duration: 0.5 }}
-      className="relative ps-6 font-tt_lakes text-xs font-normal uppercase"
+      className={`relative whitespace-nowrap ps-4 font-tt_lakes text-[10px] font-normal uppercase md:ps-6 md:text-xs ${className}`}
     >
       <Dot
         delay={0}

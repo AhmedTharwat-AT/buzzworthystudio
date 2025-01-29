@@ -1,8 +1,10 @@
 "use client";
 
+import AnimatedSubTitle from "@/components/AnimatedSubTitle";
+import AnimatedWordByWord from "@/components/AnimatedWordByWord";
+import AnimatedWordsByLetter from "@/components/AnimatedWordsByLetter";
 import Dot from "@/components/Dot";
 import LetterUpScroll from "@/components/LetterUpScroll";
-import { useWindow } from "@/context/WindowProvider";
 import { useWrapper } from "@/context/WrapperProvider";
 import {
   motion,
@@ -14,13 +16,13 @@ import {
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
-function AtitudeSection() {
+function ClientsSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const { windowDim } = useWindow();
-  const [boxsWidth, setBoxsWidth] = useState(0);
+  const [windowDim, setWindowDim] = useState({ width: 0, height: 0 });
+  const [boxsWidth] = useState(0);
   const { setPageHeight, contentRef } = useWrapper();
   const sectionHeight = boxsWidth + 2 * windowDim.height;
-  const widthPercentage = windowDim.height / sectionHeight;
+  const percentage = windowDim.height / sectionHeight;
 
   if (ref.current) {
     ref.current.style.height = `${sectionHeight}px`;
@@ -28,7 +30,7 @@ function AtitudeSection() {
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["25px 0", "1 1"],
+    offset: ["150px 0", "1 1"],
     axis: "y",
   });
 
@@ -43,19 +45,24 @@ function AtitudeSection() {
     return value * (sectionHeight - windowDim.height);
   });
 
-  const clipPath1 = useTransform(
-    smoothProgress,
-    [0.02, widthPercentage],
-    [100, 0],
-  );
-
+  const clipPath1 = useTransform(smoothProgress, [0.01, percentage], [100, 0]);
   const clipPath2 = useTransform(
     smoothProgress,
-    [1 - widthPercentage * 2, 1 - widthPercentage],
+    [1 - percentage - 0.2, 1 - percentage],
     [100, 0],
   );
-
   const clipPath = useMotionTemplate`polygon(${clipPath1}% 0, ${clipPath2}% 0, ${clipPath2}% 100%, ${clipPath1}% 100%)`;
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDim({ width: window.innerWidth, height: window.innerHeight });
+    }
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [ref]);
 
   // update page height when updating section height
   useEffect(() => {
@@ -68,37 +75,41 @@ function AtitudeSection() {
     <div
       ref={ref}
       // style={{ height: boxsWidth + 2 * windowDim.height + "px" }}
-      className="relative border"
+      className="relative border border-green-500"
     >
-      <motion.section className="relative h-screen" style={{ y }}>
-        {/* title */}
-        <div className="flex h-full flex-nowrap items-start justify-center max-md:pt-[10vw] md:items-center md:px-[12.7998vw]">
-          <div className="relative h-[1em] font-tt_tunnels text-[34vw] font-bold leading-none">
-            <motion.p
-              style={{
-                clipPath,
-              }}
-              className="text-secondary"
-            >
-              attitude
-            </motion.p>
+      <motion.section
+        className="relative h-screen md:h-[calc(100vh-20px)]"
+        style={{ y }}
+      >
+        <header className="flex flex-wrap px-[4.1666vw] max-md:mt-[10vh] max-md:flex-col-reverse md:flex-nowrap md:px-[12.4998vw]">
+          <div className="flex w-[91.6652vw] flex-wrap gap-8 md:w-[33.3328vw] lg:w-[24.9996vw]">
+            <div className="leading-normal">
+              <AnimatedSubTitle>true partnership</AnimatedSubTitle>
+            </div>
 
-            <LetterUpScroll
-              ref={ref}
-              windowPercentage={widthPercentage}
-              windowHeight={windowDim.height}
+            <p className="mb-4 w-full self-end font-sans leading-tight opacity-60">
+              <AnimatedWordByWord
+                words={[
+                  "At Buzzworthy, our goal is to exceed",
+                  "expectations and build lasting partnerships.",
+                  "Through open communication, trust, and",
+                  "shared aspirations, we establish",
+                  "relationships built on mutual respect,",
+                  "fostering collaborative journeys toward",
+                  "greatness.",
+                ]}
+              />
+            </p>
+          </div>
+
+          <div className="ml-0 w-[91.6652vw] md:ml-[8.3332vw] md:w-[33.3328vw] lg:ml-[12.4996vw]">
+            <AnimatedWordsByLetter
+              words={["Join the", "Buzzworthy", "Family."]}
+              wordClassName="leading-[0.85]"
+              className="font-tt_tunnels text-[8.333vw] font-bold uppercase leading-none [&_div:last-child_span:last-child]:text-secondary"
             />
           </div>
-        </div>
-
-        {/* boxs */}
-        <Boxs
-          ref={ref}
-          windowDim={windowDim}
-          boxsWidth={boxsWidth}
-          setBoxsWidth={setBoxsWidth}
-          widthPercentage={widthPercentage}
-        />
+        </header>
       </motion.section>
     </div>
   );
@@ -139,16 +150,14 @@ const boxsContent = {
 
 const Boxs = ({
   ref,
-  windowDim,
+  windowWidth,
   boxsWidth,
   setBoxsWidth,
-  widthPercentage,
 }: {
   ref: React.RefObject<HTMLDivElement | null>;
-  windowDim: { width: number; height: number };
+  windowWidth: number;
   boxsWidth: number;
   setBoxsWidth: React.Dispatch<React.SetStateAction<number>>;
-  widthPercentage: number;
 }) => {
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -170,8 +179,8 @@ const Boxs = ({
 
   const left = useTransform(
     smoothProgress,
-    [0, 1 - widthPercentage],
-    [0, -boxsWidth - windowDim.width],
+    [0, 1],
+    [0, -boxsWidth - windowWidth],
   );
 
   return (
@@ -189,7 +198,7 @@ const Boxs = ({
     >
       {Object.values(boxsContent).map((box, index) => (
         <motion.article
-          style={{ y: box.offset * windowDim.height, scale }}
+          style={{ y: box.offset * boxsWidth, scale }}
           key={index}
           className="h-fit w-[80vw] rounded-[10px] bg-[#222650] p-[4.1666vw] md:w-[33.3328vw]"
         >
@@ -209,4 +218,4 @@ const Boxs = ({
   );
 };
 
-export default AtitudeSection;
+export default ClientsSection;

@@ -3,16 +3,20 @@ import { motion, Variants } from "motion/react";
 
 const variants: Variants = {
   initial: (custom: number) => ({
-    rotate: custom * 55,
-    y: custom * 50,
-    x: "100vw",
-    z: 400 * (custom + 1),
+    rotateZ: "0.18turn",
+    rotateY: "-0.125turn",
+    x: 60 - 40 * custom,
+    y: 30 + 10 * custom,
+    z: 500,
+
+    // z: 400 * (custom + 1),
   }),
   final: (custom: number) => ({
-    rotate: 0,
-    z: 0,
-    y: 0,
+    rotateZ: 0,
+    rotateY: 0,
     x: 0,
+    y: 0,
+    z: 0,
     transition: { duration: 0.7, delay: custom * 0.03 },
   }),
 };
@@ -28,7 +32,13 @@ function AnimateLetters({
   return (
     <span className={className} style={{ perspective: "400px" }}>
       {letters.map((letter, index) => (
-        <motion.p key={index} custom={index + (step || 0)} variants={variants}>
+        <motion.p
+          key={index}
+          // custom={index}
+          custom={index + (step || 0)}
+          variants={variants}
+          // style={{ transformStyle: "preserve-3d" }}
+        >
           {letter}
         </motion.p>
       ))}

@@ -52,15 +52,15 @@ function HeroSection() {
 
 const headingVariants: Variants = {
   initial: {
-    rotate: 90,
-    y: "100vw",
-    x: "00vw",
+    rotate: 0,
+    y: "10vh",
+    x: "50vw",
   },
   final: {
     rotate: 0,
     y: 0,
     x: 0,
-    transition: { duration: 0.7 },
+    transition: { duration: 0.7, delay: 0 },
   },
 };
 
@@ -79,14 +79,15 @@ function HeroHeading() {
         />
         <AnimateLetters
           letters={["w", "e", "b"]}
-          className="relative ms-auto flex text-secondary"
-          step={7}
+          className="relative z-20 ms-auto flex text-secondary"
+          step={6}
         />
       </div>
       <div>
         <AnimateLetters
           letters={["S", "T", "U", "D", "I", "O"]}
           className="flex justify-end"
+          step={9}
         />
       </div>
     </motion.h1>

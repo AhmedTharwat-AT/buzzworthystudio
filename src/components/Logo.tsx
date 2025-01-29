@@ -2,11 +2,11 @@ import Link from "next/link";
 
 function Logo({}) {
   return (
-    <Link href="/" className="fixed top-[4.1666vw] left-[4.1666vw] ">
+    <Link href="/" className="fixed left-[4.1666vw] top-[4.1666vw]">
       <svg
         viewBox="0 0 60 60"
         fill="none"
-        className="fill-secondary size-[60px] lg:size-20"
+        className="size-[50px] fill-secondary md:size-[60px] lg:size-[4.1666vw]"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path

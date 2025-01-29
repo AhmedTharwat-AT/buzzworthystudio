@@ -1,10 +1,6 @@
-import Logo from "./Logo";
-
 function Header() {
   return (
-    <header className="flex justify-between font-tt_tunnels items-center h-12 p-4">
-      <Logo />
-
+    <header className="flex h-12 items-center justify-between p-4 font-tt_tunnels">
       {/* <nav>
         <ul className="flex gap-4">
           <li>Home</li>

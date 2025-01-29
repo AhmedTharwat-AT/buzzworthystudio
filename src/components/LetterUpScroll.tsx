@@ -71,7 +71,7 @@ const LetterUp = ({
 
   const letterUp = useTransform(
     smoothProgress,
-    [0, windowPercentage, 1 - windowPercentage + 0.05, 1],
+    [0, windowPercentage - 0.02, 1 - windowPercentage + 0.05, 1],
     [100 * index, 0, 0, -100 * index],
   );
 

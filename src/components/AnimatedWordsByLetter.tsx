@@ -14,7 +14,7 @@ function AnimatedWordsByLetter({
   const ref = useRef(null);
   const isInView = useInView(ref, {
     margin: "-100px",
-    once: true,
+    // once: true,
   });
 
   return (
@@ -33,8 +33,8 @@ function AnimatedWordsByLetter({
 }
 
 const letterVariants = {
-  initial: { y: "100%", opacity: 0 },
-  animate: { y: 0, opacity: 1 },
+  initial: { y: "100%", opacity: 0, rotate: 20 },
+  animate: { y: 0, opacity: 1, rotate: 0 },
 };
 
 function Word({
@@ -50,18 +50,18 @@ function Word({
 }) {
   return (
     <motion.div
-      className="overflow-hidden"
+      className={`overflow-hidden ${className}`}
       animate={inView ? "animate" : "initial"}
       transition={{
         staggerChildren: 0.05,
-        delayChildren: previous * 0.05,
+        delayChildren: previous * 0.02,
       }}
     >
       {word.split("").map((letter, index) => (
         <motion.span
           key={index}
           variants={letterVariants}
-          className={`inline-block ${className}`}
+          className={`inline-block ${letter === " " ? "w-3" : ""} ${className}`}
           transition={{ duration: 0.2, ease: "easeInOut" }}
         >
           {letter}

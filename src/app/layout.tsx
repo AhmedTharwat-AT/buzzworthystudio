@@ -6,6 +6,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import WrapperProvider from "@/context/WrapperProvider";
+import WindowProvider from "@/context/WindowProvider";
+import Logo from "@/components/Logo";
 
 const tt_tunnels = localFont({
   variable: "--font-tt-tunnels",
@@ -63,12 +65,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`min-h-screen antialiased ${tt_tunnels.variable} ${tt_lakes.variable}`}
+        className={`min-h-screen bg-foreground antialiased ${tt_tunnels.variable} ${tt_lakes.variable}`}
       >
-        <Header />
-        <WrapperProvider>
-          <MainLayout>{children}</MainLayout>
-        </WrapperProvider>
+        <Logo />
+
+        <WindowProvider>
+          <Header />
+          <WrapperProvider>
+            <MainLayout>{children}</MainLayout>
+          </WrapperProvider>
+        </WindowProvider>
         <PageToPage />
         <ScrollToTopBeforeReload />
       </body>

@@ -1,6 +1,6 @@
 import AnimatedBorderLink from "@/components/AnimatedBorderLink";
 import AnimatedSubTitle from "@/components/AnimatedSubTitle";
-import AnimationWordByWord from "@/components/AnimationWordByWord";
+import AnimatedWordByWord from "@/components/AnimatedWordByWord";
 
 function IntroSection() {
   return (
@@ -11,7 +11,7 @@ function IntroSection() {
 
       <div className="ms-0 mt-[10vh] w-full md:ms-[4.1666vw] md:mt-0 md:w-[16.6664vw]">
         <p className="mb-[10vh] uppercase leading-[1.25] md:mb-[15vh]">
-          <AnimationWordByWord
+          <AnimatedWordByWord
             words={[
               "With a",
               "decade of",
@@ -30,7 +30,7 @@ function IntroSection() {
 
       <div className="ms-0 w-[91.6652vw] md:ms-[24.9996vw] md:w-[49.9992vw] lg:ms-[4.1666vw] lg:w-[41.666vw]">
         <p className="mb-[10vh] text-[calc(40px+1.4vw)] uppercase leading-none md:mb-[20vh]">
-          <AnimationWordByWord
+          <AnimatedWordByWord
             words={[
               "delivering",
               "innovative",

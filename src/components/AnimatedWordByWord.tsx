@@ -2,7 +2,7 @@
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 
-function AnimationWordByWord({
+function AnimatedWordByWord({
   words,
   className,
 }: {
@@ -45,4 +45,4 @@ function Word({
   );
 }
 
-export default AnimationWordByWord;
+export default AnimatedWordByWord;
