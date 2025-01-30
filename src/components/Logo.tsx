@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function Logo({}) {
   return (
-    <Link href="/" className="fixed left-[4.1666vw] top-[4.1666vw]">
+    <Link href="/" className="fixed left-[4.1666vw] top-[4.1666vw] z-50">
       <svg
         viewBox="0 0 60 60"
         fill="none"
