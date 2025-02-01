@@ -14,7 +14,7 @@ function AnimatedWordsByLetter({
   const ref = useRef(null);
   const isInView = useInView(ref, {
     margin: "-100px",
-    // once: true,
+    once: true,
   });
 
   return (

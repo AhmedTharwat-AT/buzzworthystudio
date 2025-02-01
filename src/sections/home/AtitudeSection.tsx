@@ -1,9 +1,8 @@
 "use client";
 
-import Dot from "@/components/Dot";
-import LetterUpScroll from "@/components/LetterUpScroll";
+import { useEffect, useRef, useState } from "react";
+import { usePageHeight } from "@/context/PageHeightProvider";
 import { useWindow } from "@/context/WindowProvider";
-import { useWrapper } from "@/context/WrapperProvider";
 import {
   motion,
   useMotionTemplate,
@@ -12,19 +11,18 @@ import {
   useTransform,
   useVelocity,
 } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import Dot from "@/components/Dot";
+import LetterUpScroll from "@/components/LetterUpScroll";
 
 function AtitudeSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const { windowDim } = useWindow();
   const [boxsWidth, setBoxsWidth] = useState(0);
-  const { setPageHeight, contentRef } = useWrapper();
-  const sectionHeight = boxsWidth + 2 * windowDim.height;
-  const widthPercentage = windowDim.height / sectionHeight;
 
-  if (ref.current) {
-    ref.current.style.height = `${sectionHeight}px`;
-  }
+  const { windowDim } = useWindow();
+  const { setPageHeight, pageRef } = usePageHeight();
+
+  const wrapperHeight = boxsWidth + 2 * windowDim.height;
+  const widthPercentage = windowDim.height / wrapperHeight;
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -40,7 +38,7 @@ function AtitudeSection() {
   });
 
   const y = useTransform(smoothProgress, (value) => {
-    return value * (sectionHeight - windowDim.height);
+    return value * (wrapperHeight - windowDim.height - 25);
   });
 
   const clipPath1 = useTransform(
@@ -59,16 +57,16 @@ function AtitudeSection() {
 
   // update page height when updating section height
   useEffect(() => {
-    if (contentRef.current) {
-      setPageHeight(contentRef.current.scrollHeight);
+    if (pageRef.current) {
+      setPageHeight(pageRef.current.scrollHeight);
     }
-  }, [sectionHeight, contentRef, setPageHeight]);
+  }, [wrapperHeight, pageRef, setPageHeight]);
 
   return (
     <div
       ref={ref}
-      // style={{ height: boxsWidth + 2 * windowDim.height + "px" }}
-      className="relative border"
+      style={{ height: wrapperHeight + "px" }}
+      className="relative"
     >
       <motion.section className="relative h-screen" style={{ y }}>
         {/* title */}

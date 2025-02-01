@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useWindow } from "@/context/WindowProvider";
-import { useWrapper } from "@/context/WrapperProvider";
+import { usePageHeight } from "@/context/PageHeightProvider";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 
 import AnimatedSubTitle from "@/components/AnimatedSubTitle";
@@ -22,29 +22,41 @@ import Client8 from "@/assets/images/home/clients/client-8.svg";
 function ClientsSection() {
   const ref = useRef<HTMLDivElement>(null);
   const rowRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  const [offset, setOffset] = useState(0);
+  const [wrapperHeight, setWrapperHeight] = useState(0);
+
   const { windowDim } = useWindow();
-  const { setPageHeight, contentRef } = useWrapper();
-  const [sectionHeight, setSectionHeight] = useState(0);
-  const windowHeight = windowDim.height / 2;
+  const { setPageHeight, pageRef } = usePageHeight();
+  // const windowHeight = windowDim.height / 2;
+
+  // setting offset for usescroll
+  useEffect(() => {
+    if (rowRef.current && sectionRef.current && windowDim.width) {
+      const rowsHeight =
+        rowRef.current.offsetHeight * 2 + 0.041666 * windowDim.width;
+      const offset = (windowDim.height - rowsHeight) / 2;
+      setOffset(sectionRef.current.offsetHeight - rowsHeight - offset);
+    }
+  }, [windowDim]);
 
   useEffect(() => {
-    if (sectionHeight) return;
+    if (wrapperHeight) return;
 
-    if (ref.current && rowRef.current && contentRef.current) {
+    if (ref.current && rowRef.current && pageRef.current) {
       const oneCell = rowRef.current.offsetWidth / 4;
-      const temp = ref.current.scrollHeight + 3 * oneCell;
+      const newHeight = ref.current.scrollHeight + 3 * oneCell;
+      ref.current.style.height = `${newHeight}px`;
 
-      setSectionHeight(temp);
-
-      ref.current.style.height = `${temp}px`;
-
-      setPageHeight(contentRef.current.scrollHeight);
+      setWrapperHeight(newHeight);
+      setPageHeight(pageRef.current.scrollHeight);
     }
-  }, [contentRef, setPageHeight, sectionHeight, rowRef]);
+  }, [pageRef, setPageHeight, wrapperHeight]);
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["0 0", "1 1"],
+    offset: [`${offset}px 0`, "1 1"],
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
@@ -54,22 +66,17 @@ function ClientsSection() {
   });
 
   const y = useTransform(smoothProgress, (value) => {
-    return value * (sectionHeight - windowDim.height);
+    return value * (wrapperHeight - windowDim.height - offset);
   });
-  // const y = useTransform(smoothProgress, (value) => {
-  //   return value * (sectionHeight - windowDim.height);
-  // });
+
   const moveLeft = useTransform(smoothProgress, [0, 1], ["0", "-75%"]);
 
   const moveRight = useTransform(smoothProgress, [0, 1], ["0", "75%"]);
 
   return (
-    <div
-      ref={ref}
-      // style={{ height: boxsWidth + 2 * windowDim.height + "px" }}
-      className="relative border border-green-500"
-    >
+    <div ref={ref} className="relative">
       <motion.section
+        ref={sectionRef}
         className="relative md:h-[calc(100vh-20px)]"
         style={{ y }}
       >
@@ -96,7 +103,8 @@ function ClientsSection() {
             ))}
           </motion.div>
 
-          <Heart />
+          {/* center circle */}
+          <HeartIcon />
 
           {/* bot row */}
           <motion.div
@@ -156,7 +164,7 @@ function Heading() {
   );
 }
 
-function Heart() {
+function HeartIcon() {
   return (
     <div className="absolute left-[54.1658vw] top-1/2 z-20 flex size-[12.4998vw] -translate-y-1/2 items-center justify-center rounded-full bg-secondary">
       <motion.img

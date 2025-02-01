@@ -5,7 +5,7 @@ import ScrollToTopBeforeReload from "@/components/ScrollToTopBeforeReload";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import WrapperProvider from "@/context/WrapperProvider";
+import PageHeightProvider from "@/context/PageHeightProvider";
 import WindowProvider from "@/context/WindowProvider";
 import Logo from "@/components/Logo";
 
@@ -68,13 +68,14 @@ export default function RootLayout({
         className={`min-h-screen bg-foreground antialiased ${tt_tunnels.variable} ${tt_lakes.variable}`}
       >
         <Logo />
+        <Header />
 
         <WindowProvider>
-          <Header />
-          <WrapperProvider>
+          <PageHeightProvider>
             <MainLayout>{children}</MainLayout>
-          </WrapperProvider>
+          </PageHeightProvider>
         </WindowProvider>
+
         <PageToPage />
         <ScrollToTopBeforeReload />
       </body>

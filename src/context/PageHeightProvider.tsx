@@ -2,28 +2,28 @@
 
 import { createContext, useContext, useRef, useState } from "react";
 
-const WrapperContext = createContext<{
+const PageHeightContext = createContext<{
   pageHeight: number;
   setPageHeight: (height: number) => void;
-  contentRef: React.RefObject<HTMLDivElement | null>;
+  pageRef: React.RefObject<HTMLDivElement | null>;
 } | null>(null);
 
-export default function WrapperProvider({
+export default function PageHeightProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const [pageHeight, setPageHeight] = useState(0);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
   return (
-    <WrapperContext.Provider value={{ pageHeight, setPageHeight, contentRef }}>
+    <PageHeightContext.Provider value={{ pageHeight, setPageHeight, pageRef }}>
       {children}
-    </WrapperContext.Provider>
+    </PageHeightContext.Provider>
   );
 }
 
-export const useWrapper = () => {
-  const context = useContext(WrapperContext);
+export const usePageHeight = () => {
+  const context = useContext(PageHeightContext);
   if (!context)
     throw new Error("useWrapper must be used within a WrapperProvider");
   return context;

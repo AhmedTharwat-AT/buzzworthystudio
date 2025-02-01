@@ -1,8 +1,9 @@
 "use client";
 
-import { useWrapper } from "@/context/WrapperProvider";
+import { usePageHeight } from "@/context/PageHeightProvider";
+import { useWindow } from "@/context/WindowProvider";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
-import { useEffect, useState } from "react";
+import { memo, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 function ParrallexContent({
@@ -12,44 +13,39 @@ function ParrallexContent({
   className?: string;
   children?: React.ReactNode;
 }) {
-  const [windowHeight, setWindowHeight] = useState(0);
-  const { pageHeight, setPageHeight, contentRef } = useWrapper();
+  const { windowDim } = useWindow();
+  const { pageHeight, setPageHeight, pageRef } = usePageHeight();
   const { scrollYProgress } = useScroll();
   const smoothProgress = useSpring(scrollYProgress, {
     mass: 0.1,
     stiffness: 100,
     damping: 20,
   });
+
   const y = useTransform(smoothProgress, (value) => {
-    return value * -((contentRef.current?.scrollHeight || 0) - windowHeight);
+    return value * -(pageHeight - windowDim.height);
   });
 
   useEffect(() => {
-    if (!contentRef.current) return;
+    if (!pageRef.current) return;
     const handleResize = () => {
-      setWindowHeight(window.innerHeight);
-
-      if (contentRef.current) {
-        setPageHeight(contentRef.current.scrollHeight);
-        // document.body.style.height = `${
-        //   contentRef.current.scrollHeight + 10
-        // }px`;
+      if (pageRef.current) {
+        setPageHeight(pageRef.current.scrollHeight);
       }
     };
 
     handleResize();
-
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [contentRef, setPageHeight]);
+  }, [pageRef, setPageHeight]);
 
   return (
     <>
       <motion.div
-        ref={contentRef}
+        ref={pageRef}
         id="content-wrapper"
         style={{ y }}
         className={`${className}`}
@@ -72,4 +68,4 @@ function ParrallexContent({
   );
 }
 
-export default ParrallexContent;
+export default memo(ParrallexContent);
